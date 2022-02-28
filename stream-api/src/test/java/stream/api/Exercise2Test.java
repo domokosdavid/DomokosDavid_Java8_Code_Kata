@@ -40,8 +40,9 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with descending ordered age values.
          */
-        Comparator<Integer> descOrder = null;
-        Stream<Integer> sortedAgeStream = null;
+        Comparator<Integer> descOrder = (((o1, o2) -> o2 -o1));
+        Stream<Integer> sortedAgeStream = customerList.stream().sorted(Comparator.comparingInt(Customer::getAge).reversed())
+                .map(Customer::getAge);
 
         assertTrue(AssertUtil.isLambda(descOrder));
         List<Integer> sortedAgeList = sortedAgeStream.collect(Collectors.toList());
@@ -82,8 +83,8 @@ public class Exercise2Test extends ClassicOnlineStore {
          * Create a stream with items' names stored in {@link Customer.wantToBuy}
          * Use {@link Stream#flatMap} to create a stream from each element of a stream.
          */
-        Function<Customer, Stream<Item>> getItemStream = null;
-        Stream<String> itemStream = null;
+        Function<Customer, Stream<Item>> getItemStream = customer -> customer.getWantToBuy().stream();
+        Stream<String> itemStream = customerList.stream().flatMap(customer -> getItemStream.apply(customer).map(Item::getName));
 
         assertTrue(AssertUtil.isLambda(getItemStream));
         List<String> itemList = itemStream.collect(Collectors.toList());
