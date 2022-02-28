@@ -28,7 +28,7 @@ public class Exercise5Test extends ClassicOnlineStore {
         /**
          * Create a list of customer names by using {@link Stream#collect} and {@link Collectors#toList}
          */
-        List<String> nameList = null;
+        List<String> nameList = customerList.stream().map(Customer::getName).collect(Collectors.toList());
 
         assertThat(nameList, contains("Joe", "Steven", "Patrick", "Diana", "Chris", "Kathy", "Alice", "Andrew",
                                       "Martin", "Amy"));
@@ -80,7 +80,7 @@ public class Exercise5Test extends ClassicOnlineStore {
          * Create a map of age as key and number of customers as value
          * using {@link Collectors#groupingBy} and {@link Collectors#counting}
          */
-        Map<Integer, Long> ageDistribution = null;
+        Map<Integer, Long> ageDistribution = customerList.stream().collect(Collectors.groupingBy(Customer::getAge, Collectors.counting()));
 
         assertThat(ageDistribution.size(), is(9));
         ageDistribution.forEach((k, v) -> {
